@@ -15,22 +15,23 @@
 # Не забувайте що кожна функція має виконувати тільки одне завдання і про правила написання коду.
 
 user_input_str = "\033[43m Введіть свій вік ==> \033[O"
-incorrect_input = "\033[41m Введіть ще раз в числовому форматі додатніми:\033[0"
-where_parents = "\033[43mТобі ж {}{}! Де твої батьки?\033[0"
-stop_i = "\033[41m Тобі лише {}{}, а це е фільм для дорослих!\033[0"
+incorrect_input = "\033[41m Введіть ще раз в числовому форматі додатніми \033[0"
+where_parents = "\033[43mТобі ж {}! Де твої батьки?\033[0"
+stop_i = "\033[41m Тобі лише {}, а це е фільм для дорослих!\033"
 pens_doc = "\033[44m Вам {}? Покажіть пенсійне посвідчення!\033[O"
 no_tickets = "\033[44m Незважаючи на те, що вам {}, білетів всеодно нема!\033[O"
-interesting_age = "\033[44mО,Вам {}! Який цікавий вік!\033[O"
-
+interesting_age = "\033[44mО, вам {}! Який цікавий вік!\033[O"
 
 def input_validation(user_input):
-    # Тут має буті валідація інпуту
+    """ Валідація інпуту """
     # Усі символи стрічки мають бути цифрами
     # user_age = int(user_input)
     # перевірити чи менше або дорівнює 120
-    is_valid = False
-    return is_valid
-
+    # Почитаешь: https://docs.python.org/3/library/stdtypes.html#str.isdecimal
+    if user_input.isdecimal():
+        return int(user_input) <= 120
+    else:
+        return False
 
 def age_input():
     user_input = input(user_input_str)
@@ -41,27 +42,47 @@ def age_input():
             return user_input
         user_input = input(incorrect_input)
 
+def get_formatted_age(age: int):
+    # 1,21,31,41,51,61,71,81,91 рік
+    # 2,3,4, роки
+    # 5-20 років
+    ostatok_ot_delenia_na_100 = age % 100
+    ostatok_ot_delenia_na_10 = ostatok_ot_delenia_na_100 % 10
+    if ostatok_ot_delenia_na_100 > 10 and ostatok_ot_delenia_na_100 <= 20:
+        return str(age) + ' років'
+    elif ostatok_ot_delenia_na_10 == 1:
+        return str(age) + ' рік'
+    elif ostatok_ot_delenia_na_10 in (2, 3, 4):
+        return str(age) + ' роки'
+    else:
+        return str(age) + ' років'
 
 # c# # ()# # in range(, 1)# # in(,,)#
 
-print(age_input())
+user_age = int(age_input())
+user_age_formatted = get_formatted_age(user_age)
 
-# 1,21,31,41,51,61,71,81,91 рік
-# 2,3,4, роки
-# 5-20 років
-# user_age = 5
+def litl_age():
+    if (user_age < 7):
+        print(where_parents.format(user_age_formatted))
+litl_age()
 
-# def func(age):
-#     """В"""
-#
-#
-# if (user_age < 7):
-#     print(where_parents.format(func(age)))
-# elif (user_age < 16):
-#     print(stop_i.format(func(age)))
-# elif (user_age > 65):
-#     print(pens_doc.format(func(age)))
-# elif (user_age in (11, 22, 33, 44, 55, 66, 77, 88, 99, 111)):
-#     print(interesting_age.format(func(age)))
-# else:
-#     print(no_tickets.format(func(age)))
+def adult_age():
+    if (user_age < 16):
+        print(stop_i.format(user_age_formatted))
+adult_age()
+
+def pens_age():
+    if (user_age > 65):
+        print(pens_doc.format(user_age_formatted))
+pens_age()
+
+def intr_age():
+    if (user_age in (11, 22, 33, 44, 55, 66, 77, 88, 99, 111)):
+        print(interesting_age.format(user_age_formatted))
+intr_age()
+
+def all_age():
+    if (user_age >0):
+        print(no_tickets.format(user_age_formatted))
+all_age()
