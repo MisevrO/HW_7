@@ -25,9 +25,7 @@ interesting_age = "\033[44mО, вам {}! Який цікавий вік!\033[O"
 def input_validation(user_input):
     """ Валідація інпуту """
     # Усі символи стрічки мають бути цифрами
-    # user_age = int(user_input)
-    # перевірити чи менше або дорівнює 120
-    # Почитаешь: https://docs.python.org/3/library/stdtypes.html#str.isdecimal
+  
     if user_input.isdecimal():
         return int(user_input) <= 120
     else:
@@ -57,7 +55,6 @@ def get_formatted_age(age: int):
     else:
         return str(age) + ' років'
 
-# c# # ()# # in range(, 1)# # in(,,)#
 
 user_age = int(age_input())
 user_age_formatted = get_formatted_age(user_age)
